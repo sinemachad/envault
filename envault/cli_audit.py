@@ -11,6 +11,10 @@ def cmd_audit(args: argparse.Namespace) -> None:
     directory = getattr(args, "directory", ".")
     events = read_events(directory=directory)
 
+    if not events:
+        print("No audit log events found.")
+        return
+
     if getattr(args, "json", False):
         import json
         print(json.dumps(events, indent=2))
