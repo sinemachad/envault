@@ -47,6 +47,14 @@ envault unlock --key <shared-key>
 envault run --key <shared-key> -- python app.py
 ```
 
+**Rotate the shared key** (re-encrypts `.env.vault` with a new key):
+
+```bash
+envault rotate
+# → New key saved: .envault.key
+# → Re-encrypted: .env.vault
+```
+
 > ⚠️ Never commit `.env` or `.envault.key` to version control. Add both to your `.gitignore`.
 
 ---
