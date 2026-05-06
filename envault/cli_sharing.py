@@ -21,6 +21,9 @@ def cmd_export(args: argparse.Namespace) -> None:
     except FileNotFoundError as exc:
         print(f"Error: {exc}", file=sys.stderr)
         sys.exit(1)
+    except PermissionError as exc:
+        print(f"Error: permission denied — {exc}", file=sys.stderr)
+        sys.exit(1)
 
 
 def cmd_import(args: argparse.Namespace) -> None:
@@ -38,6 +41,9 @@ def cmd_import(args: argparse.Namespace) -> None:
                 print(f"{key}={value}")
     except FileNotFoundError as exc:
         print(f"Error: {exc}", file=sys.stderr)
+        sys.exit(1)
+    except PermissionError as exc:
+        print(f"Error: permission denied — {exc}", file=sys.stderr)
         sys.exit(1)
     except ValueError as exc:
         print(f"Error: {exc}", file=sys.stderr)
