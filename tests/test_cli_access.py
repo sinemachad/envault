@@ -37,6 +37,15 @@ class TestCmdAccessSet:
         with pytest.raises(SystemExit):
             cmd_access_set(args)
 
+    def test_overwrites_existing_policy(self, base_dir, capsys):
+        """Setting keys for an existing profile should replace the previous policy."""
+        set_allowed_keys(base_dir, "dev", ["OLD_KEY"])
+        args = _make_args(base_dir=base_dir, profile="dev", keys="NEW_KEY")
+        cmd_access_set(args)
+        out = capsys.readouterr().out
+        assert "NEW_KEY" in out
+        assert "OLD_KEY" not in out
+
 
 class TestCmdAccessRemove:
     def test_prints_success_when_removed(self, base_dir, capsys):
