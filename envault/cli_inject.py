@@ -32,12 +32,21 @@ def cmd_inject(args: argparse.Namespace) -> None:
             )
 
     if args.command:
-        try:
-            proc = subprocess.run(args.command, env=None)  # inherits os.environ
-            sys.exit(proc.returncode)
-        except FileNotFoundError:
-            print(f"error: command not found: {args.command[0]}", file=sys.stderr)
-            sys.exit(127)
+        _run_command(args.command)
+
+
+def _run_command(command: list[str]) -> None:
+    """Run *command* in a subprocess that inherits the current environment.
+
+    Exits the process with the child's return code, or with 127 if the
+    executable cannot be found (POSIX convention for "command not found").
+    """
+    try:
+        proc = subprocess.run(command, env=None)  # inherits os.environ
+        sys.exit(proc.returncode)
+    except FileNotFoundError:
+        print(f"error: command not found: {command[0]}", file=sys.stderr)
+        sys.exit(127)
 
 
 def build_inject_subparsers(subparsers: argparse._SubParsersAction) -> None:  # noqa: SLF001
